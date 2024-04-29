@@ -32,21 +32,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moviestreamingapp.R
 import com.example.moviestreamingapp.model.Category
-import com.example.moviestreamingapp.ui.theme.MovieStreamingAppTheme
+import com.example.moviestreamingapp.ui.components.MovieScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     categories: List<Category>,
+    movieUiState: MovieUiState,
     modifier: Modifier = Modifier
 ) {
     var isSelected by rememberSaveable { mutableStateOf(false) }
-    var categoryId by rememberSaveable { mutableStateOf("") }
+    var categoryId by rememberSaveable { mutableStateOf("1") }
 
     Column(
         modifier = modifier
@@ -111,6 +111,11 @@ fun HomeScreen(
                 }
             }
         }
+        Spacer(modifier = modifier.size(24.dp))
+
+        when(categoryId){
+            "1" -> MovieScreen(movieUiState = movieUiState)
+        }
     }
 }
 
@@ -128,14 +133,14 @@ fun selectCategory(
     ) {
         Text(
             text = category.name,
-            color = if (selected && category.id == categoryId)
+            color = if (category.id == categoryId)
                 colorResource(R.color.category_selected_color)
             else
                 colorResource(R.color.white),
             fontSize = 18.sp,
             modifier = Modifier.padding(bottom = 4.dp) // Adjust padding as needed
         )
-        if (selected && category.id == categoryId) {
+        if (category.id == categoryId) {
             Box(
                 modifier = Modifier
                     .width(28.dp)
@@ -146,21 +151,5 @@ fun selectCategory(
                     )
             )
         }
-    }
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun HomeScreenPreview() {
-    MovieStreamingAppTheme {
-        HomeScreen(
-            categories = listOf(
-                Category("1", "Movies"),
-                Category("3", "TV Series"),
-                Category("2", "Documentaries"),
-                Category("4", "Sports")
-            )
-        )
     }
 }
