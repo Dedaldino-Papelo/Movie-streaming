@@ -12,6 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.moviestreamingapp.data.DataSource
 import com.example.moviestreamingapp.ui.screens.HomeScreen
 import com.example.moviestreamingapp.ui.screens.MovieViewModel
+import com.example.moviestreamingapp.ui.screens.TvSeriesViewModel
 
 @Composable
 fun MovieStreamingAppBar(){
@@ -23,6 +24,7 @@ fun MovieStreamingAppBar(){
 fun MovieStreamingApp(){
     val navController = rememberNavController()
     val movieViewModel: MovieViewModel = viewModel()
+    val tvSeriesViewModel: TvSeriesViewModel = viewModel()
 
     Scaffold(
 
@@ -37,7 +39,8 @@ fun MovieStreamingApp(){
             composable(Screen.Home.route) {
                 HomeScreen(
                     categories = DataSource.categories,
-                    movieUiState = movieViewModel.movieUiState
+                    movieUiState = movieViewModel.movieUiState,
+                    tvSeriesUiState = tvSeriesViewModel.tvSeriesUiState
                 )
             }
         }

@@ -37,12 +37,14 @@ import androidx.compose.ui.unit.sp
 import com.example.moviestreamingapp.R
 import com.example.moviestreamingapp.model.Category
 import com.example.moviestreamingapp.ui.components.MovieScreen
+import com.example.moviestreamingapp.ui.components.TvSeriesScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     categories: List<Category>,
     movieUiState: MovieUiState,
+    tvSeriesUiState: TvSeriesUiState,
     modifier: Modifier = Modifier
 ) {
     var isSelected by rememberSaveable { mutableStateOf(false) }
@@ -115,6 +117,7 @@ fun HomeScreen(
 
         when(categoryId){
             "1" -> MovieScreen(movieUiState = movieUiState)
+            "2" -> TvSeriesScreen(tvSeriesUiState = tvSeriesUiState)
         }
     }
 }

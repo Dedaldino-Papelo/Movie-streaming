@@ -2,6 +2,7 @@ package com.example.moviestreamingapp.network
 
 import com.example.moviestreamingapp.BuildConfig
 import com.example.moviestreamingapp.model.MovieList
+import com.example.moviestreamingapp.model.TvList
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -19,6 +20,9 @@ private val retrofit = Retrofit.Builder()
 interface MovieApiService {
     @GET("movie/popular?api_key=${API_KEY}")
     suspend fun getMovies(): MovieList
+
+    @GET("tv/popular?api_key=${API_KEY}")
+    suspend fun getTvSeries(): TvList
 }
 
 object MovieApi {

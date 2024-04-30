@@ -27,26 +27,28 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.moviestreamingapp.R
-import com.example.moviestreamingapp.model.Movie
-import com.example.moviestreamingapp.ui.screens.MovieUiState
+import com.example.moviestreamingapp.model.TvSeries
+import com.example.moviestreamingapp.ui.screens.TvSeriesUiState
 
 @Composable
-fun MovieScreen(
-    movieUiState: MovieUiState,
-    modifier: Modifier = Modifier)
-{
-    when(movieUiState){
-        is MovieUiState.Loading -> LoadingScreen()
-        is MovieUiState.Success -> MoviesGridScreen(
-            movieUiState.movies,
+fun TvSeriesScreen(
+    tvSeriesUiState: TvSeriesUiState,
+    modifier: Modifier = Modifier
+){
+    when(tvSeriesUiState){
+        is TvSeriesUiState.Loading -> LoadingTvSeries()
+        is TvSeriesUiState.Success -> TvSeriesGridScreen(
+            tvSeriesUiState.tvSeries,
             modifier = modifier.fillMaxWidth()
         )
-        is MovieUiState.Error -> ErrorScreen()
+        is TvSeriesUiState.Error -> TvSeriesFailed()
     }
 }
 
 @Composable
-fun LoadingScreen(modifier: Modifier = Modifier){
+fun LoadingTvSeries(
+    modifier: Modifier = Modifier
+){
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -61,13 +63,15 @@ fun LoadingScreen(modifier: Modifier = Modifier){
 }
 
 @Composable
-fun ErrorScreen(){}
+fun TvSeriesFailed(){
+
+}
 
 @Composable
-fun MoviesGridScreen(
-    movies: List<Movie>,
-    modifier: Modifier = Modifier,
-){
+fun TvSeriesGridScreen(
+    tvSeries: List<TvSeries>,
+    modifier: Modifier = Modifier){
+
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         modifier = modifier,
@@ -75,8 +79,8 @@ fun MoviesGridScreen(
         verticalArrangement = Arrangement.spacedBy(22.dp),
         contentPadding = PaddingValues(start = 27.dp, end = 29.dp, bottom = 27.dp)
     ){
-        items(items = movies, key = { movie -> movie.id }){ movie ->
-            MoviesCard(
+        items(items = tvSeries, key = { tvSeries -> tvSeries.id }){ movie ->
+            TvSeriesCard(
                 movie,
                 modifier = modifier
                     .padding(4.dp)
@@ -87,10 +91,10 @@ fun MoviesGridScreen(
 }
 
 @Composable
-fun MoviesCard(
-    movie: Movie,
-    modifier: Modifier = Modifier){
-
+fun TvSeriesCard(
+    tvSeries: TvSeries,
+    modifier: Modifier = Modifier
+){
     Column(
         modifier = modifier,
     ) {
@@ -100,17 +104,17 @@ fun MoviesCard(
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(context = LocalContext.current)
-                    .data("https://image.tmdb.org/t/p/w500/${movie.posterPath}")
+                    .data("https://image.tmdb.org/t/p/w500/${tvSeries.posterPath}")
                     .crossfade(true)
                     .build(),
-                contentDescription = movie.originalTitle,
+                contentDescription = tvSeries.originalName,
                 contentScale = ContentScale.Crop
             )
         }
         Spacer(modifier = modifier.height(14.dp))
 
         Text(
-            text = "${movie.originalTitle} (${movie.releaseDate.split("-")[0]})",
+            text = "${tvSeries.originalName}",
             color = colorResource(R.color.white),
             fontSize = 19.sp
         )
